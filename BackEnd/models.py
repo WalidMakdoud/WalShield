@@ -2,9 +2,9 @@ from sqlalchemy import Column, Integer, String
 from database import Base
 
 
-class Device(Base):
+class ArpScan(Base):
 	
-	__tablename__ = "devices"
+	__tablename__ = "arp_scans"
 	
 
 	id = Column(Integer, primary_key=True, index=True)
@@ -13,5 +13,22 @@ class Device(Base):
 	ip = Column(String)
 	mac = Column(String)
 
+
+class PortScan(Base):
+	
+	__tablename__ = "port_scans"
+
+	id = Column(Intger, primary_key=True, index=True)
+
+	ip = Column(String)
+	ports_scanned = Column(String)
+
+class DeauthScan(Base):
+
+	__tablename__ = "deauth_scans"
+
+	id = Column(Intger, primary_key=True, index=True)
+
+	ip = Column(String)
 
 

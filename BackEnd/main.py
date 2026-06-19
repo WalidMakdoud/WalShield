@@ -1,24 +1,24 @@
 from fastapi import FastAPI
 from sqlalchemy.orm import Session
 from database import SessionLocal, engine, Base
-from models import Device
-from schemas import DeviceCreate
+from models import ArpScan, PortScan, DeauthScan
+from schemas import ArpScanCreate, PortScanCreate, DeauthScanCreate
 
 # Cree la table de la base de donnee
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-@app.post("/devices")
-def create_device(device: DeviceCreate):
+@app.post("/arp")
+def create_arp(device: ArpScanCreate):
 
 	db: Session = SessionLocal()
 
 	#Ckeck if device in database
-	existing_device = db.query(Device).filter(
+	existing_device = db.query(ArpScan).filter(
 		
-		Device.ip == device.ip,
-		Device.mac == device.mac
+		ArpScan.ip == device.ip,
+		ArpScan.mac == device.mac
 
 	).first()
 
@@ -31,7 +31,7 @@ def create_device(device: DeviceCreate):
 		}
 
 
-	new_device = Device(
+	new_device = ArpScan(
 		
 		ip=device.ip,
 		mac=device.mac
@@ -47,11 +47,106 @@ def create_device(device: DeviceCreate):
 	}
 
 
-@app.get("/devices")
-def get_devices():
+@app.post("/portscan")
+def create_portscan(device: PortScanCreate):
+
+        db: Session = SessionLocal()
+
+        #Ckeck if device in database
+        existing_device = db.query(PortScan).filter(
+
+                PortScan.ip == device.ip,
+                PortScan.ports_scanned == ports_scanned
+
+        ).first()
+
+        if existing_device:
+
+
+                return {
+
+                        "message" : "device already existes"
+                }
+
+
+        new_device = PortScan(
+
+                ip=device.ip,
+                mac=device.ports_scanned
+        )
+
+        db.add(new_device)
+
+
+        db.commit()
+        return {
+
+                "message" : "device saved"
+        }
+
+@app.post("/deauth")
+def create_deauthscan(device: DeauthScanCreate):
+
+        db: Session = SessionLocal()
+
+        #Ckeck if device in database
+        existing_device = db.query(DeauthScan).filter(
+
+                DeauthScan.ip == device.ip,
+
+        ).first()
+
+        if existing_device:
+
+
+                return {
+
+                        "message" : "device already existes"
+                }
+
+
+        new_device = DeauthScan(
+
+                ip=device.ip,
+        )
+
+        db.add(new_device)
+
+
+        db.commit()
+        return {
+
+                "message" : "device saved"
+        }
+
+
+
+@app.get("/arp")
+def get_arp():
 
 	db : Session = SessionLocal()
 
-	devices = db.query(Device).all()
+	devices = db.query(ArpScan).all()
 
 	return devices
+
+
+app.get("/portscan")
+def get_portscan():
+
+        db : Session = SessionLocal()
+
+        devices = db.query(PortScan).all()
+
+        return devices
+
+
+
+app.get("/deauth")
+def get_deauthscan():
+
+        db : Session = SessionLocal()
+
+        devices = db.query(DeauthScan).all()
+
+        return devices
