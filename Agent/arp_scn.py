@@ -6,7 +6,7 @@ import os
 import requests
 
 
-BACKEND_URL = "http://127.0.0.1:8000/devices" 
+BACKEND_URL = "http://127.0.0.1:8000/arp" 
 
 def send_to_backEnd(ip_mac):
 
@@ -104,5 +104,11 @@ def arp_scanner(interface, ips):
 
 
 if __name__ == "__main__":
+	
+	if len(sys.argv != 3):
+
+		print(f"Usage : python3 {sys.argv[0]} <interface> <network ip range>")
+		sys.exit(1)
+
 
 	arp_scanner(sys.argv[1], sys.argv[2])
