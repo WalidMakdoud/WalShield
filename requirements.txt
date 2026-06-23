@@ -1,0 +1,6 @@
+scapy
+uvicorn
+sqlalchemy
+fastapi
+pydantic
+requests
