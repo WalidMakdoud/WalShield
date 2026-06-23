@@ -72,7 +72,7 @@ def create_portscan(device: PortScanCreate):
         new_device = PortScan(
 
                 ip=device.ip,
-                mac=device.ports_scanned
+                ports_scanned=device.ports_scanned
         )
 
         db.add(new_device)
@@ -131,7 +131,7 @@ def get_arp():
 	return devices
 
 
-app.get("/portscan")
+@app.get("/portscan")
 def get_portscan():
 
         db : Session = SessionLocal()
@@ -142,7 +142,7 @@ def get_portscan():
 
 
 
-app.get("/deauth")
+@app.get("/deauth")
 def get_deauthscan():
 
         db : Session = SessionLocal()

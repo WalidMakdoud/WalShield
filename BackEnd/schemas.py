@@ -9,7 +9,7 @@ class ArpScanCreate(BaseModel):
 class PortScanCreate(BaseModel):
 
 	ip : str
-	ports : str
+	ports_scanned : str
 
 class DeauthScanCreate(BaseModel):
 
