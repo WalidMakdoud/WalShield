@@ -5,4 +5,4 @@ BackEnd/walidshield.db
 test.sh
 Port_Scanner_log.txt
 logs/
-node_modules
+node_modules/
