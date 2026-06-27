@@ -1,1 +1,5 @@
 .myenv
+..gitignore.swp
+BackEnd/__pycache__/
+BackEnd/walidshield.db
+test.sh
