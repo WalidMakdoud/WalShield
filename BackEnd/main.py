@@ -3,11 +3,20 @@ from sqlalchemy.orm import Session
 from database import SessionLocal, engine, Base
 from models import ArpScan, PortScan, DeauthScan
 from schemas import ArpScanCreate, PortScanCreate, DeauthScanCreate
+from fastapi.middleware.cors import CORSMiddleware
 
 # Cree la table de la base de donnee
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post("/arp")
 def create_arp(device: ArpScanCreate):
