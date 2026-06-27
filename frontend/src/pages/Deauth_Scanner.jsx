@@ -1,25 +1,50 @@
+import { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 
 function DeauthScanner() {
+  const [devices, setDevices] = useState([]);
 
-    return (
+  useEffect(() => {
+    async function loadArpData() {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/deauth");
+        const data = await response.json();
+        setDevices(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
-        <div className="flex">
+    loadArpData();
+  }, []);
 
-            <Sidebar />
+  return (
+  <div className="flex">
+    <Sidebar />
 
-            <div className="p-8 flex-1">
+    <div className="flex-1 p-10">
+      <h1 className="text-3xl font-bold mb-6">
+        Deauth Scanner
+      </h1>
 
-                <h1 className="text-4xl font-bold mb-6">
-                    Deauth Scanner
-                </h1>
+      <table className="w-full border">
+        <thead className="bg-gray-200">
+          <tr>
+            <th className="border p-2">Mac Address</th>
+          </tr>
+        </thead>
 
-            </div>
-
-        </div>
-
-    );
-
+        <tbody>
+          {devices.map((device, index) => (
+            <tr key={index}>
+              <td className="border p-2">{device.mac}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+);
 }
 
-export default DeauthScanner;
+export default DeauthScanner; 

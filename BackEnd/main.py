@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from sqlalchemy.orm import Session
 from database import SessionLocal, engine, Base
-from models import ArpScan, PortScan, DeauthScan
-from schemas import ArpScanCreate, PortScanCreate, DeauthScanCreate
+from models import ArpScan, PortScan, DeauthScan, DosScan
+from schemas import ArpScanCreate, PortScanCreate, DeauthScanCreate, DosScanCreate
 from fastapi.middleware.cors import CORSMiddleware
 
 # Cree la table de la base de donnee
@@ -101,7 +101,7 @@ def create_deauthscan(device: DeauthScanCreate):
         #Ckeck if device in database
         existing_device = db.query(DeauthScan).filter(
 
-                DeauthScan.ip == device.ip,
+                DeauthScan.mac == device.mac,
 
         ).first()
 
@@ -116,6 +116,44 @@ def create_deauthscan(device: DeauthScanCreate):
 
         new_device = DeauthScan(
 
+                mac=device.mac,
+        )
+
+        db.add(new_device)
+
+
+        db.commit()
+        return {
+
+                "message" : "device saved"
+        }
+
+
+
+
+@app.post("/dos")
+def create_deauthscan(device: DosScanCreate):
+
+        db: Session = SessionLocal()
+
+        #Ckeck if device in database
+        existing_device = db.query(DosScan).filter(
+
+                DosScan.ip == device.ip,
+
+        ).first()
+
+        if existing_device:
+
+
+                return {
+
+                        "message" : "device already existes"
+                }
+
+
+        new_device = DosScan(
+
                 ip=device.ip,
         )
 
@@ -127,6 +165,8 @@ def create_deauthscan(device: DeauthScanCreate):
 
                 "message" : "device saved"
         }
+
+
 
 
 
@@ -157,5 +197,15 @@ def get_deauthscan():
         db : Session = SessionLocal()
 
         devices = db.query(DeauthScan).all()
+
+        return devices
+
+
+@app.get("/dos")
+def get_deauthscan():
+
+        db : Session = SessionLocal()
+
+        devices = db.query(DosScan).all()
 
         return devices

@@ -36,6 +36,28 @@ def send_to_backend(data : dict) -> None:
 
 
 
+def block_ips(src : str) -> None:
+
+        try:
+
+                subprocess.run(
+                        ["iptables", "-A", "INPUT", "-s", src, "-j", "DROP"],
+                        check=True
+                )
+
+                msg = f"[BLOCKED] {src}\n"
+
+        except subprocess.CalledProcessError as e:
+
+                msg = f"[BLOCK FAILED] {src} - {e}\n"
+
+
+        print(msg, end="")
+        logs.write(msg)
+        logs.flush()
+
+
+
 def dos_scanner(pkt) -> None:
 
 		
@@ -78,6 +100,7 @@ def dos_scanner(pkt) -> None:
 					logs.write(msg)
 					logs.flush()
 					print(msg)
+					block_ips(src)
 					blocked_ips.add(src)
 					flagged_ips.add(src)
 

@@ -29,6 +29,13 @@ class DeauthScan(Base):
 
 	id = Column(Integer, primary_key=True, index=True)
 
-	ip = Column(String)
+	mac = Column(String)
 
 
+class DosScan(Base):
+
+        __tablename__ = "dos_scans"
+
+        id = Column(Integer, primary_key=True, index=True)
+
+        ip = Column(String)

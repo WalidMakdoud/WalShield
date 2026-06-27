@@ -13,5 +13,8 @@ class PortScanCreate(BaseModel):
 
 class DeauthScanCreate(BaseModel):
 
-	ip : str
+	mac : str
 
+class DosScanCreate(BaseModel):
+
+        ip : str
