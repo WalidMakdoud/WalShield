@@ -8,6 +8,7 @@ import DosScanne from "./pages/Dos_Scanner.jsx";
 import DeauthScanner from "./pages/Deauth_Scanner.jsx";
 import Logs from "./pages/Logs.jsx";
 import Settings from "./pages/Settings.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 function App() {
   return (
@@ -15,19 +16,19 @@ function App() {
 
       <Route path="/" element={<Login />} />
 
-      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/dashboard" element={ <ProtectedRoute><Dashboard /></ProtectedRoute> } />
 
-      <Route path="/arp" element={<ArpScanner />} />
+      <Route path="/arp" element={ <ProtectedRoute><ArpScanner /></ProtectedRoute>} />
 
-      <Route path="/portscanner" element={<PortScanerDetection />} />
+      <Route path="/portscanner" element={ <ProtectedRoute><PortScanerDetection /></ProtectedRoute>} />
 
-      <Route path="/dos" element={<DosScanne />} />
+      <Route path="/dos" element={ <ProtectedRoute><DosScanne /></ProtectedRoute>} />
 
-      <Route path="/deauth" element={<DeauthScanner />} />
+      <Route path="/deauth" element={ <ProtectedRoute><DeauthScanner /></ProtectedRoute>} />
 
-      <Route path="/logs" element={<Logs />} />
+      <Route path="/logs" element={ <ProtectedRoute><Logs /></ProtectedRoute>} />
 
-      <Route path="/settings" element={<Settings />} />
+      <Route path="/settings" element={ <ProtectedRoute><Settings /></ProtectedRoute>} />
 
     </Routes>
   );

@@ -1,53 +1,83 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-    const navigate = useNavigate();
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-    function login(e){
+  const handleLogin = (e) => {
+    e.preventDefault();
 
-        e.preventDefault();
-
-        navigate("/dashboard");
-
+    if (login(username, password)) {
+      navigate("/dashboard");
+    } else {
+      alert("Invalid username or password");
     }
+  };
 
-    return (
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-slate-950">
+      <div className="w-full max-w-md">
+        <form
+          onSubmit={handleLogin}
+          className="bg-slate-900 border border-cyan-500/30 rounded-2xl shadow-2xl p-8"
+        >
+          <h1 className="text-4xl font-bold text-center text-cyan-400 mb-2">
+            WalShield
+          </h1>
 
-        <div className="flex justify-center items-center h-screen bg-slate-900">
+          <p className="text-center text-slate-400 mb-8">
+            Network Security Dashboard
+          </p>
 
-            <form
-                onSubmit={login}
-                className="bg-slate-800 p-10 rounded-xl w-96">
+          <div className="mb-5">
+            <label className="block text-slate-300 mb-2">
+              Username
+            </label>
 
-                <h1 className="text-3xl text-white mb-6">
-                    WalShield Login
-                </h1>
+            <input
+              type="text"
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+          </div>
 
-                <input
-                    className="w-full p-3 mb-4 rounded bg-slate-700 text-white"
-                    placeholder="Username"
-                />
+          <div className="mb-6">
+            <label className="block text-slate-300 mb-2">
+              Password
+            </label>
 
-                <input
-                    type="password"
-                    className="w-full p-3 mb-6 rounded bg-slate-700 text-white"
-                    placeholder="Password"
-                />
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+          </div>
 
-                <button
-                    className="bg-blue-600 w-full p-3 rounded text-white">
+          <button
+            type="submit"
+            className="w-full bg-cyan-500 hover:bg-cyan-600 text-slate-900 font-bold py-3 rounded-lg transition duration-300"
+          >
+            Login
+          </button>
 
-                    Login
-
-                </button>
-
-            </form>
-
-        </div>
-
-    );
-
+          <div className="mt-8 text-center text-sm text-slate-500">
+            Default credentials:
+            <br />
+            <span className="text-cyan-400">admin / admin</span>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 }
 
 export default Login;
