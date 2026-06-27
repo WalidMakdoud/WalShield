@@ -3,3 +3,5 @@
 BackEnd/__pycache__/
 BackEnd/walidshield.db
 test.sh
+Port_Scanner_log.txt
+logs/
